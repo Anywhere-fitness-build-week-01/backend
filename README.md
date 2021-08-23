@@ -1,60 +1,104 @@
-# Build Week Scaffolding for Node and PostgreSQL
+# Welcome to bw-anywhere-fitness-01 👋
 
-## Video Tutorial
+### 🏠 [Homepage]()
 
-The following tutorial explains how to set up this project using PostgreSQL and Heroku.
+### ✨ [Demo]()
 
-[![Setting up PostgreSQL for Build Week](https://img.youtube.com/vi/kTO_tf4L23I/maxresdefault.jpg)](https://www.youtube.com/watch?v=kTO_tf4L23I)
+## Prerequisites
 
-## Requirements
+- node 14.16.0
+- npm 6.14.11
 
-- [PostgreSQL, pgAdmin 4](https://www.postgresql.org/download/) and [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed in your local machine.
-- A Heroku app with the [Heroku PostgreSQL Addon](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) added to it.
-- Development and testing databases created with [pgAdmin 4](https://www.pgadmin.org/docs/pgadmin4/4.29/database_dialog.html).
+## Install
 
-## Starting a New Project
+```sh
+npm install
+```
 
-- Create a new repository using this template, and clone it to your local.
-- Create a `.env` file and follow the instructions inside `knexfile.js`.
-- Fix the scripts inside `package.json` to use your Heroku app.
+## Usage
 
-## Scripts
+```sh
+npm run start
+```
 
-- **start**: Runs the app in production.
-- **server**: Runs the app in development.
-- **migrate**: Migrates the local development database to the latest.
-- **rollback**: Rolls back migrations in the local development database.
-- **seed**: Truncates all tables in the local development database, feel free to add more seed files.
-- **test**: Runs tests.
-- **deploy**: Deploys the main branch to Heroku.
+## Run tests
 
-**The following scripts NEED TO BE EDITED before using: replace `YOUR_HEROKU_APP_NAME`**
+```sh
+npm run test
+```
 
-- **migrateh**: Migrates the Heroku database to the latest.
-- **rollbackh**: Rolls back migrations in the Heroku database.
-- **databaseh**: Interact with the Heroku database from the command line using psql.
-- **seedh**: Runs all seeds in the Heroku database.
+## Author
 
-## Hot Tips
+Node Back-End - Build Week - bw-anywhere-fitness-01
 
-- Figure out the connection to the database and deployment before writing any code.
+[Endpoints] Base URL: https://bw-anywhere-fitness-01.herokuapp.com/api
 
-- If you need to make changes to a migration file that has already been released to Heroku, follow this sequence:
+This url will be the beginning of all endpoints. Add the following endpoints below to the base URL.
+[Register]
 
-  1. Roll back migrations in the Heroku database
-  2. Deploy the latest code to Heroku
-  3. Migrate the Heroku database to the latest
+No token is required when registering
 
-- If your frontend devs are clear on the shape of the data they need, you can quickly build provisional endpoints that return mock data. They shouldn't have to wait for you to build the entire backend.
+Example: https://bw-anywhere-fitness-01.herokuapp.com/api/auth/register
 
-- Keep your endpoints super lean: the bulk of the code belongs inside models and other middlewares.
+    [POST] [Register] - Register a new user
+        Endpoint: /auth/register
 
-- Validating and sanitizing client data using a library is much less work than doing it manually.
+    Fields:
+    "username" - string, unique (MUST not match any other registered username), REQUIRED
+    "password" - string, REQUIRED
+    "email": string, unique, REQUIRED
+    "remaining_classes": integer, REQUIRED
+    "role_id": integer, REQUIRED
 
-- Revealing crash messages to clients is a security risk, but during development it's helpful if your frontend devs are able to tell you what crashed.
+[Login]
 
-- PostgreSQL comes with [fantastic built-in functions](https://hashrocket.com/blog/posts/faster-json-generation-with-postgresql) for hammering rows into whatever JSON shape.
+Token required for login
 
-- If you want to edit a migration that has already been released but don't want to lose all the data, make a new migration instead. This is a more realistic flow for production apps: prod databases are never migrated down. We can migrate Heroku down freely only because there's no valuable data from customers in it. In this sense, Heroku is acting more like a staging environment than production.
+Example: https://bw-anywhere-fitness-01.herokuapp.com/api/auth/login
 
-- If your fronted devs are interested in running the API locally, help them set up PostgreSQL & pgAdmin in their machines, and teach them how to run migrations in their local. This empowers them to (1) help you troubleshoot bugs, (2) obtain the latest code by simply doing `git pull` and (3) work with their own data, without it being wiped every time you roll back the Heroku db. Collaboration is more fun and direct, and you don't need to deploy as often.
+    [POST] [Login] - Login an already registered user to receive a token
+        Endpoint: /auth/login
+
+    Fields:
+    "username" - string, MUST match a registered username, REQUIRED
+    "password" - string, MUST match a registered password with registered username, REQUIRED
+
+[Logout]
+
+Token required for Logout
+
+Example: https://bw-anywhere-fitness-01.herokuapp.com/api/auth/logout
+
+    [POST] [Logout] - Logout a user destroy a token
+        Endpoint: /auth/logout
+
+    Fields:
+    None required
+
+[Users]
+
+Token required for seeing classes
+
+    [GET] [FindAllClasses] - Finds all classes
+        Endpoint: /classes
+        Example: https://bw-anywhere-fitness-01.herokuapp.com/api/classes
+
+    [GET] [FindClassById] - Find a specific class by its assigned class ID
+        Endpoint: /classes/:class_id
+        Example: https://bw-anywhere-fitness-01.herokuapp.com/api/classes/1
+
+    [GET] [FindClassesByUserId] - Find a user's classes by their assigned user ID
+        Endpoint: /classes/user/:user_id
+        Example: https://bw-anywhere-fitness-01.herokuapp.com/api/classes/user/1
+
+    [POST] [AddClasses] - Create a new user class.
+        Endpoint: /classes
+        Example: https://bw-anywhere-fitness-01.herokuapp.com/api/classes
+
+    [PUT] [AddClasses] - Update an existing user's class.
+        Endpoint: /classes/:class_id
+        Example: https://bw-anywhere-fitness-01.herokuapp.com/api/classes/1
+
+    [DELETE] [RemoveClassById] - Remove a user's class by their assigned class ID
+        Endpoint: /classes/:class_id
+        Example: https://bw-anywhere-fitness-01.herokuapp.com/api/classes/1
