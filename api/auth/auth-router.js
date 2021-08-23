@@ -10,7 +10,6 @@ const {
 const { JWT_SECRET } = require("../secrets/secrets");
 const Auth = require("./auth-model");
 
-
 // CREATION OF NEW TOKEN
 const makeToken = (user) => {
   const payload = {

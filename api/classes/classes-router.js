@@ -1,12 +1,11 @@
 const router = require("express").Router();
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Classes = require("./classes-model");
-const JWT_SECRET = require('../secrets/secrets');
-const mw = require('./classes-middleware');
+const JWT_SECRET = require("../secrets/secrets");
+const mw = require("./classes-middleware");
 
 // CRUD:  CREATE
-router.post('/', (req, res, next) => {
+router.post("/", (req, res, next) => {
   const token = req.headers.authorization;
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     Classes.create(req.body)
@@ -17,9 +16,8 @@ router.post('/', (req, res, next) => {
   });
 });
 
-
 // CRUD:  READ
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
   Classes.getAllClasses()
     .then((classes) => {
       res.status(200).json(classes);
@@ -27,18 +25,20 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
-// mw.validateInstrutorsId,
+// mw.validateInstructorsId,
 
 // CRUD:  UPDATE
-router.put('/:class_id', (req, res) => {
+router.put("/:class_id", (req, res) => {
   const changes = req.body;
-  const { class_id } = req.params
+  const { class_id } = req.params;
   Classes.update(class_id, changes)
     .then((updatedClasses) => {
       if (updatedClasses) {
-        res.status(200).json({ message: `Class with id of ${class_id} was updated` });
+        res
+          .status(200)
+          .json({ message: `Class with id of ${class_id} was updated` });
       } else {
-        res.status(404).json({ message: 'The class could not be found' });
+        res.status(404).json({ message: "The class could not be found" });
       }
     })
     .catch((error) => {
@@ -46,16 +46,16 @@ router.put('/:class_id', (req, res) => {
     });
 });
 
-// mw.validateInstrutorsId,
+// mw.validateInstructorsId,
 // CRUD:  DELETE
-router.delete('/:class_id', (req, res) => {
+router.delete("/:class_id", (req, res) => {
   Classes.remove(req.params.class_id)
     .then(() => {
-      res.status(200).json({ message: "Class deleted" })
+      res.status(200).json({ message: "Class deleted" });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-      res.status(500).json({ message: 'Error deleting the class' });
+      res.status(500).json({ message: "Error deleting the class" });
     });
 });
 

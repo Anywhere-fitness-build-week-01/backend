@@ -1,6 +1,5 @@
 const db = require("../data/db-config");
 
-
 // GENERAL SEARCH
 function getBy(filter) {
   return db("users").where(filter);

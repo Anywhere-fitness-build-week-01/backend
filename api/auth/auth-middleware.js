@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 const { JWT_SECRET } = require("../secrets/secrets");
 const Auth = require("./auth-model");
 
@@ -82,8 +81,7 @@ const checkPayload = (req, res, next) => {
     next();
   } else {
     res.status(422).json({
-      message:
-        "Please provide username, password, and email.",
+      message: "Please provide username, password, and email.",
     });
   }
 };

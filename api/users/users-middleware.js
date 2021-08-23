@@ -1,4 +1,3 @@
-const bcrypt = require("bcryptjs");
 const Users = require("./users-model");
 
 // USED TO VERIFY A SPECIFIC USER IN A SEARCH
